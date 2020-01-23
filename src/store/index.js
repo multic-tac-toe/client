@@ -5,31 +5,6 @@ import db from '../config/firestore'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-<<<<<<< 5a7b95338d813b6949e2ab6fd1e3e71a32eafefc
-    state: {
-        roomID: ''
-    },
-    mutations: {
-        CREATE_ROOM(state, payload) {
-            state.roomID = payload
-        },
-    },
-    actions: {
-        CREATE_ROOM({commit}, payload) {
-            db.collection('rooms')
-                .add({
-                    'member': {
-                        'username': ''
-                    }
-                })
-                .then(result => {
-                    commit('CREATE_ROOM', result.id)
-                    console.log(result)
-                })
-        }
-    },
-    modules: {}
-=======
   state: {
       allPlayerList : ['aaa', 'bbb','ccc','ddd','eee'],
       teamX : [],
@@ -82,5 +57,4 @@ export default new Vuex.Store({
           return state.gameStat
       }
   }
->>>>>>> jap
 })
