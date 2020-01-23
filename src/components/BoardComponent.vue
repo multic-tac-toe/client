@@ -6,8 +6,8 @@
         <i v-if="objGameState[index]=='o'" class="far fa-circle"></i>
       </div>
       <div class="xo" v-if="!objGameState[index]">
-        <i v-if="teamTurn=='x'" @click="setGame('x',index)" class="fas fa-times"></i>
-        <i v-if="teamTurn=='o'" @click="setGame('o',index)" class="far fa-circle"></i>
+        <i v-if="teamTurn=='x'" @click="setGame(index, 'x')" class="fas fa-times"></i>
+        <i v-if="teamTurn=='o'" @click="setGame(index, 'o')" class="far fa-circle"></i>
       </div>
     </div>
   </div>
@@ -16,10 +16,10 @@
 <script>
 export default {
   methods: {
-    setGame(team, location) {
+    setGame(location, team) {
       if (this.$store.state.playerTurn == localStorage.getItem('playerTurn')) {
-        console.log({team, location})
-        this.$store.commit('CHANGE_STATE', {team, location})
+        console.log({location, team})
+        this.$store.commit('CHANGE_STATE', {location, team})
       } else {
         console.log('gak boleh')
       }
