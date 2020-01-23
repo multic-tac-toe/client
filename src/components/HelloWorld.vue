@@ -1,7 +1,6 @@
 <template>
     <div class="hello">
         <h1>{{ msg }}</h1>
-        <button @click="createRoom">create room</button>
     </div>
 </template>
 
@@ -12,9 +11,6 @@
             msg: String
         },
         methods: {
-          createRoom(){
-            this.$store.dispatch('CREATE_ROOM')
-          }
         }
     }
 </script>
