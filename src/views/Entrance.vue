@@ -2,9 +2,9 @@
     <div class="d-flex flex-column" style="height: 80vh">
         <CreateRoom/>
         <div class="container my-4">
-            <b-card-group deck>
+            <div class="d-flex flex-wrap justify-content-center">
                 <RoomCard v-for="(room, index) in rooms" :key="index" :data="room"/>
-            </b-card-group>
+            </div>
         </div>
     </div>
 </template>

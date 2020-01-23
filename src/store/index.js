@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import db from '../config/firestore'
+import checkWinner from '../config/checkWinner'
 
 Vue.use(Vuex);
 
@@ -34,6 +35,8 @@ export default new Vuex.Store({
       SET_GAME_STAT(state, payload){
           const key = Object.keys(payload)
           state.gameStat[key] = payload[key]
+          
+
       }
     },
     actions: {

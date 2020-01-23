@@ -5,28 +5,27 @@
                     src="https://miro.medium.com/max/512/1*9LBDOx6gG4mTuPGPDp888w.png"
                     fluid
                     alt="Tic Tac Toe"
-                    class="w-50 my-4 shadow"
+                    class="logo w-50 my-4 shadow"
                     rounded="circle"
                     style="transform: rotate(10deg)">
             </b-img>
         </div>
         <b-form @submit.prevent="createRoom">
             <b-form-group
-                    id="input-group-1"
-                    label="Create New Room"
-                    label-for="new-room"
-                    class="font-weight-bold">
+              id="input-group-1"
+              label="Create New Room"
+              label-for="new-room"
+              class="font-weight-bold">
                 <b-form-input
-                        id="new-room"
-                        type="text"
-                        required
-                        placeholder="input room name ..."
-                        class="rounded"
-                        v-model="roomName"
-                        minLength="3"
-                        maxLength="12"
-                        style="text-align: center"
-                        required/>
+                  id="new-room"
+                  type="text"
+                  required
+                  placeholder="input room name ..."
+                  class="rounded"
+                  v-model="roomName"
+                  minLength="3"
+                  maxLength="12"
+                  style="text-align: center"/>
             </b-form-group>
             <b-button type="submit" variant="primary">Create</b-button>
         </b-form>
@@ -51,6 +50,22 @@
     }
 </script>
 
-<style>
+<style scoped>
+@keyframes animaterotation {
+    0% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+    100% {
+        transform: rotate(10deg);
+    }
+}
+
+.logo {
+  animation: animaterotation 2s infinite !important;
+}
+
 
 </style>
