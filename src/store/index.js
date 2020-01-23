@@ -7,7 +7,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         roomName: '',
-        roomList: ''
+        roomList: '',
+        allPlayerList : ['aaa', 'bbb','ccc','ddd','eee'],
+        teamX : [],
+        teamO : [],
+        teamTurn : 'X',
+        playerTurn : '',
+        gameStat: {}
     },
     mutations: {
         CREATE_ROOM(state, payload) {
@@ -15,7 +21,20 @@ export default new Vuex.Store({
         },
         GET_ROOM_LIST(state, payload) {
             state.roomList = payload
-        }
+        },
+          SET_TEAM_X(state, payload){
+          state.teamX = payload
+      },
+      SET_TEAM_O(state, payload){
+          state.teamO = payload
+      },
+      SET_TEAM_TURN(state, payload){
+          state.teamTurn = payload
+      },
+      SET_GAME_STAT(state, payload){
+          const key = Object.keys(payload)
+          state.gameStat[key] = payload[key]
+      }
     },
     actions: {
         CREATE_ROOM({commit}, payload) {
@@ -54,6 +73,24 @@ export default new Vuex.Store({
     getters: {
         ROOM_LIST: state => {
             return state.roomList
-        }
+        },
+          allPlayerList: state =>{
+          return state.allPlayerList
+      },
+      teamX: state =>{
+          return state.teamX
+      },
+      teamO: state =>{
+          return state.teamO
+      },
+      teamTurn: state =>{
+          return state.teamTurn
+      },
+      playerTurn: state =>{
+          return state.playerTurn
+      },
+      gameStat: state=>{
+          return state.gameStat
+      }
     }
 })
