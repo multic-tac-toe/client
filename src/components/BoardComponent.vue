@@ -1,13 +1,13 @@
 <template>
   <div class="board-wrapper">
     <div class="square" v-for="index in 9" :key="index.id">
-      <div class="xo-picked" :class="objGameState[index]+'-color'" v-if="objGameState[index]">
-        <i v-if="objGameState[index]=='x'" class="fas fa-times"></i>
-        <i v-if="objGameState[index]=='o'" class="far fa-circle"></i>
+      <div class="xo-picked" :class="gameStat[index]+'-color'" v-if="gameStat[index]">
+        <i v-if="gameStat[index]=='X'" class="fas fa-times"></i>
+        <i v-if="gameStat[index]=='O'" class="far fa-circle"></i>
       </div>
-      <div class="xo" v-if="!objGameState[index]">
-        <i v-if="teamTurn=='x'" @click="setGame(index, 'x')" class="fas fa-times"></i>
-        <i v-if="teamTurn=='o'" @click="setGame(index, 'o')" class="far fa-circle"></i>
+      <div class="xo" v-if="!gameStat[index]">
+        <i v-if="teamTurn=='X'" @click="setGame(index, 'x')" class="fas fa-times"></i>
+        <i v-if="teamTurn=='O'" @click="setGame(index, 'o')" class="far fa-circle"></i>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
 export default {
   methods: {
     setGame(location, team) {
-      if (this.$store.state.playerTurn == localStorage.getItem('playerTurn')) {
+      if (this.$store.state.playerTurn == localStorage.getItem('player')) {
         console.log({location, team})
         this.$store.commit('CHANGE_STATE', {location, team})
       } else {
@@ -29,8 +29,8 @@ export default {
     teamTurn() {
       return this.$store.state.teamTurn
     },
-    objGameState() {
-      return this.$store.state.objGameState
+    gameStat() {
+      return this.$store.state.gameStat
     }
   }
 }
