@@ -4,16 +4,17 @@
     <h1>showTime</h1><br>
     {{showTime}}
 
-    <h1>showTimeOut</h1><br>
-    <!-- {{showTimeOut}} -->
 
     <h1>dateNow</h1><br>
     {{ dateNow}}<br>
-
+<br><br>
     <h1>timeOut</h1><br>
     {{ timeOut }}
+<br><br>
+    <h1>seconds left</h1>
+    <h1>{{ secondsLeft }}</h1>
 
-    <button @click="timeOut.setSeconds(timeOut.getSeconds() + 5)">plus 5+</button>
+    <button @click="timeout = timeOut.setSeconds(timeOut.getSeconds() + 5)">plus 5+</button>
   </div>
 </template>
 
@@ -23,28 +24,23 @@ export default {
     data(){
       return{
         dateNow:'',
-        timeOut: new Date('January 24, 2020 12:57:00'),
+        timeOut: new Date('January 24, 2020 13:25:00'),
+        secondsLeft : ''
       }
     },
     methods:{
-
+        addTimeOut(){
+            this.timeOut = new Date().setSeconds( new Date().getSeconds() + 5)
+        }
     },
     computed:{
         showTime(){
           setInterval(() => {
-              let hours = new Date().getHours()
-              let minutes = new Date().getMinutes()
-              let seconds = new Date().getSeconds()
-              this.dateNow = `${hours} : ${minutes} : ${seconds}`
+              this.dateNow = new Date()
+              this.secondsLeft = Math.floor( (this.timeOut.getTime() - this.dateNow.getTime()) / 1000)
               
-          }, 1000);
-        },
-        showTimeOut(){
-            setInterval(() => {
-              let runningDate = new Date()
-              if(  new Date() > this.timeOut )
-                alert('game over')
-              
+              if( this.dateNow >= this.timeOut)
+                  alert('game over')
           }, 1000);
         }
     }
