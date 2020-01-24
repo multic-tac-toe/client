@@ -22,7 +22,58 @@
 </template>
 
 <script>
+import randomGenerator from '../config/randomGenerator'
+
 export default {
+    methods:{
+      randomJoinTeam(){
+          let teamX = []
+          let teamO = []
+          const maxPlayerInTeam = Math.ceil(this.allPlayerList.length/2)
+
+          if(this.allPlayerList.length > 6 || this.allPlayerList.length < 2)
+                console.log(' \n======================\n players must between 2 to 6')
+          else
+            {
+                this.allPlayerList.forEach(element => {
+                      const randResult = this.randomGenerator(2)
+
+                      if(randResult === 0 && teamX.length < maxPlayerInTeam )
+                          teamX.push(element)
+                      else if(teamO.length < maxPlayerInTeam )
+                          teamO.push(element)
+                      else
+                          teamX.push(element)
+                });
+
+                this.$store.commit('SET_TEAM_X', teamX)
+                this.$store.commit('SET_TEAM_O', teamO)
+
+                console.log(`TCL: randomJoinTeam -> this.teamX`, this.teamX)
+                console.log(`TCL: randomJoinTeam -> this.teamO`, this.teamO)
+            }
+      },
+      randomInitialTeamTurn(){
+          const randTurn = this.randomGenerator(2)
+          if( randTurn === 0)
+            this.$store.commit('SET_TEAM_TURN', 'X')
+          else
+            this.$store.commit('SET_TEAM_TURN', 'O')
+          
+          console.log(`TCL: randomInitialTeamTurn -> this.teamTurn`, this.teamTurn)
+      },
+    },
+  computed:{
+      ...mapGetters([
+          'allPlayerList',
+          'teamX',
+          'teamO',
+          'teamTurn',
+      ])
+  }
+
+
+
 
 }
 </script>

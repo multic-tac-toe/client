@@ -44,12 +44,54 @@
 
 <script>
 import BoardComponent from '@/components/BoardComponent.vue'
+import randomGenerator from '../config/randomGenerator'
 
 export default {
   name: 'arena',
   components: {
     BoardComponent
+  },
+  methods:{
+      randomPlayerTurn(){
+            let playerStack = []
+            if(this.teamTurn === 'X')
+              playerStack = this.teamX
+            else
+              playerStack = this.teamO
+
+            const playerTurn = playerStack[ Math.floor(Math.random() * playerStack.length)]
+            console.log(`TCL: randomPlayerTurn -> playerTurn`, playerTurn)
+      },
+      sendResponse(buttonId){
+          const currentTeamTurn = this.teamTurn
+          if(this.gameStat[buttonId])
+            console.log(` \n======================\n GRID ${buttonId} HAS BEEN FILLED`)
+          else
+            {
+                if(currentTeamTurn === "X")
+                    this.$store.commit('SET_TEAM_TURN', 'O')
+                else
+                    this.$store.commit('SET_TEAM_TURN', 'X')
+
+                console.log(' \n======================\n', currentTeamTurn)
+                this.$store.commit('SET_GAME_STAT', { [buttonId] : currentTeamTurn })
+                console.log(' \n======================\n', this.gameStat)
+            }
+          
+
+      }
+  },
+  computed:{
+      ...mapGetters([
+          'allPlayerList',
+          'teamX',
+          'teamO',
+          'teamTurn',
+          'playerTurn',
+          'gameStat'
+      ])
   }
+
 }
 </script>
 <style scoped>
