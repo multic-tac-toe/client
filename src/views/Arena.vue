@@ -5,15 +5,9 @@
                 <b-col cols-lg="3">
                     <i class="fas fa-times big-icon"></i>
                     <hr/>
-                    <div class="players">
+                    <div class="players" v-for="player in teamX" :key="player.id">
                         <div class="players-name">
-                            somebody
-                        </div>
-                        <div class="players-name">
-                            once
-                        </div>
-                        <div class="players-name">
-                            told me
+                            {{player}}
                         </div>
                     </div>
                 </b-col>
@@ -25,15 +19,9 @@
                 <b-col cols-lg="3">
                     <i class="far fa-circle big-icon"></i>
                     <hr/>
-                    <div class="players">
+                    <div class="players" v-for="player in teamO" :key="player.id">
                         <div class="players-name">
-                            somebody
-                        </div>
-                        <div class="players-name">
-                            once
-                        </div>
-                        <div class="players-name">
-                            told me
+                            {{player}}
                         </div>
                     </div>
                 </b-col>
