@@ -2,6 +2,7 @@
     <div class="container d-flex flex-column">
         <div>
             <b-img
+                    @click="runAllRandom"
                     src="https://i.imgur.com/9yyfubL.jpg"
                     fluid
                     alt="Play Button"
@@ -19,6 +20,7 @@
 <script>
     import randomGenerator from '../config/randomGenerator'
     import {mapGetters} from 'vuex'
+    import router from "../router";
 
     export default {
         name: 'lobby',
@@ -26,6 +28,12 @@
             return {}
         },
         methods: {
+            runAllRandom() {
+                this.randomJoinTeam()
+                this.randomInitialTeamTurn()
+                this.randomPlayerTurn()
+                this.$store.dispatch('UPDATE_GAME_SPEC')
+            },
             randomJoinTeam() {
                 let teamX = []
                 let teamO = []
@@ -35,7 +43,7 @@
                     console.log(' \n======================\n players must between 2 to 6')
                 else {
                     this.allPlayerList.forEach(element => {
-                        const randResult = this.randomGenerator(2)
+                        const randResult = randomGenerator(2)
 
                         if (randResult === 0 && teamX.length < maxPlayerInTeam)
                             teamX.push(element)
@@ -52,8 +60,19 @@
                     console.log(`TCL: randomJoinTeam -> this.teamO`, this.teamO)
                 }
             },
+            randomPlayerTurn() {
+                let playerStack = [];
+                if (this.teamTurn === 'X')
+                    playerStack = this.teamX
+                else
+                    playerStack = this.teamO
+
+                const playerTurn = playerStack[Math.floor(Math.random() * playerStack.length)]
+                console.log(`TCL: randomPlayerTurn -> playerTurn`, playerTurn)
+            },
+
             randomInitialTeamTurn() {
-                const randTurn = this.randomGenerator(2)
+                const randTurn = randomGenerator(2)
                 if (randTurn === 0)
                     this.$store.commit('SET_TEAM_TURN', 'X')
                 else
@@ -61,6 +80,10 @@
 
                 console.log(`TCL: randomInitialTeamTurn -> this.teamTurn`, this.teamTurn)
             },
+            addPlayers() {
+                this.$store.state.allPlayerList = localStorage.getItem('players')
+                console.log(localStorage.getItem('players'))
+            }
         },
         computed: {
             ...mapGetters([
@@ -68,7 +91,18 @@
                 'teamX',
                 'teamO',
                 'teamTurn',
+                'gameReady'
             ])
+        },
+        mounted() {
+            // this.addPlayers()
+            this.$store.dispatch('GET_GAME_DATA');
+        },
+        watch: {
+            gameReady(n, o){
+                console.log(n,o);
+                router.push("/arena")
+            }
         }
 
 
