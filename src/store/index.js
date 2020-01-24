@@ -36,11 +36,13 @@ export default new Vuex.Store({
         SET_TEAM_TURN(state, payload) {
             state.teamTurn = payload
         },
+        SET_PLAYER_TURN(state, payload) {
+            state.playerTurn = payload
+        },
         SET_GAME_STAT(state, payload) {
             const key = Object.keys(payload)
             state.gameStat[key] = payload[key]
             console.log(checkWinner(state.gameStat), '((')
-
         }
     },
     actions: {
@@ -94,10 +96,21 @@ export default new Vuex.Store({
                         console.log("room not found")
                     }
                 })
+        },
+        UPDATE_GAME({commit}, payload) {
+            db.collection('rooms')
+                .doc(this.state.roomName)
+                .update({
+                    gameStat: this.state.gameStat, 
+                    teamTurn: this.state.teamTurn, 
+                    playerTurn: this.state.playerTurn
+                })
+                .then(_ => {
+                    console.log('Success')
+                })
                 .catch(err => {
                     console.log(err)
                 })
-
         }
     },
     modules: {},
