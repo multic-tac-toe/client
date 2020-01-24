@@ -5,7 +5,8 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/arena">Arena</router-link>
       <router-link to="/entrance">Entrance</router-link> |
-      <router-link to="/lobby">Lobby</router-link>
+      <router-link to="/lobby">Lobby</router-link> |
+      <router-link to="/registration">Registration</router-link>
     </div>
     <router-view/>
   </div>

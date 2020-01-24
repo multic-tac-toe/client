@@ -5,15 +5,17 @@ function checkWinner(obj) {
     ['', '', ''],
   ]
 
-  arr[0][1] = obj['1']
-  arr[0][2] = obj['2']
-  arr[0][3] = obj['3']
-  arr[1][0] = obj['4']
-  arr[1][1] = obj['5']
-  arr[1][2] = obj['6']
-  arr[2][0] = obj['7']
-  arr[2][1] = obj['8']
-  arr[2][2] = obj['9']
+  arr[0][0] = obj['1'] || ''
+  arr[0][1] = obj['2'] || ''
+  arr[0][2] = obj['3'] || ''
+  arr[1][0] = obj['4'] || ''
+  arr[1][1] = obj['5'] || ''
+  arr[1][2] = obj['6'] || ''
+  arr[2][0] = obj['7'] || ''
+  arr[2][1] = obj['8'] || ''
+  arr[2][2] = obj['9'] || ''
+
+  console.log(arr, '<<')
 
   let all = '';
   for (let i = 0; i < 3; i++) {
@@ -59,12 +61,16 @@ function checkWinner(obj) {
   
   for (let i = 0; i < all.length - 3; i += 3) {
       if (all[i] + all[i + 1] + all[i + 2] === 'XXX') {
-          return 'X';
+          return 'X WON';
       } else if (all[i] + all[i + 1] + all[i + 2] === 'OOO') {
-          return 'O';
+          return 'O WON';
       }
   }
-  return 'DRAW'
+  if (all.indexOf('-') !== -1) {
+      return 'Playing...'
+  } else {
+      return 'DRAW'
+  }
 }
 
 export default checkWinner

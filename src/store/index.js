@@ -35,7 +35,7 @@ export default new Vuex.Store({
       SET_GAME_STAT(state, payload){
           const key = Object.keys(payload)
           state.gameStat[key] = payload[key]
-          
+          console.log(checkWinner(state.gameStat), '((')
 
       }
     },
