@@ -9,11 +9,12 @@ export default new Vuex.Store({
     state: {
         roomName: '',
         roomList: '',
-        allPlayerList : ['aaa', 'bbb','ccc','ddd','eee'],
-        teamX : [],
-        teamO : [],
-        teamTurn : 'X',
-        playerTurn : '',
+        teamList: [],
+        allPlayerList: [],
+        teamX: [],
+        teamO: [],
+        teamTurn: 'X',
+        playerTurn: '',
         gameStat: {}
     },
     mutations: {
@@ -23,21 +24,24 @@ export default new Vuex.Store({
         GET_ROOM_LIST(state, payload) {
             state.roomList = payload
         },
-          SET_TEAM_X(state, payload){
-          state.teamX = payload
-      },
-      SET_TEAM_O(state, payload){
-          state.teamO = payload
-      },
-      SET_TEAM_TURN(state, payload){
-          state.teamTurn = payload
-      },
-      SET_GAME_STAT(state, payload){
-          const key = Object.keys(payload)
-          state.gameStat[key] = payload[key]
-          console.log(checkWinner(state.gameStat), '((')
+        GET_TEAM_LIST(state, payload) {
+            state.allPlayerList = payload
+        },
+        SET_TEAM_X(state, payload) {
+            state.teamX = payload
+        },
+        SET_TEAM_O(state, payload) {
+            state.teamO = payload
+        },
+        SET_TEAM_TURN(state, payload) {
+            state.teamTurn = payload
+        },
+        SET_GAME_STAT(state, payload) {
+            const key = Object.keys(payload)
+            state.gameStat[key] = payload[key]
+            console.log(checkWinner(state.gameStat), '((')
 
-      }
+        }
     },
     actions: {
         CREATE_ROOM({commit}, payload) {
@@ -70,6 +74,30 @@ export default new Vuex.Store({
                 .onSnapshot((querySnapshot) => {
                     commit('GET_ROOM_LIST', querySnapshot.docs)
                 })
+        },
+        GET_TEAM_LIST({commit}, payload) {
+            db.collection('rooms')
+                .doc(payload)
+                .onSnapshot((querySnapshot) => {
+                    commit('GET_TEAM_LIST', querySnapshot.data().member)
+                })
+        },
+        JOIN_ROOM({commit}, payload) {
+            let room = db.collection('rooms').doc(payload.roomName);
+            room.get()
+                .then(doc => {
+                    if (doc) {
+                        room.update({
+                            'member': payload.teamList
+                        })
+                    } else {
+                        console.log("room not found")
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
         }
     },
     modules: {},
@@ -77,23 +105,23 @@ export default new Vuex.Store({
         ROOM_LIST: state => {
             return state.roomList
         },
-          allPlayerList: state =>{
-          return state.allPlayerList
-      },
-      teamX: state =>{
-          return state.teamX
-      },
-      teamO: state =>{
-          return state.teamO
-      },
-      teamTurn: state =>{
-          return state.teamTurn
-      },
-      playerTurn: state =>{
-          return state.playerTurn
-      },
-      gameStat: state=>{
-          return state.gameStat
-      }
+        allPlayerList: state => {
+            return state.allPlayerList
+        },
+        teamX: state => {
+            return state.teamX
+        },
+        teamO: state => {
+            return state.teamO
+        },
+        teamTurn: state => {
+            return state.teamTurn
+        },
+        playerTurn: state => {
+            return state.playerTurn
+        },
+        gameStat: state => {
+            return state.gameStat
+        }
     }
 })
