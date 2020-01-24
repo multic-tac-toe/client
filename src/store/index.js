@@ -24,6 +24,7 @@ export default new Vuex.Store({
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
         timeOut: new Date('January 24, 2020 15:07:00'),
         timeOutInterval: 10,
+        winner: ''
     },
     mutations: {
         CREATE_ROOM(state, payload) {
@@ -67,6 +68,9 @@ export default new Vuex.Store({
             state.timeOut = payload.timedOut;
             state.gameReady = payload.gameReady;
         },
+        setWinner(state, payload){
+            state.winner = payload
+        }
     },
     actions: {
         CREATE_ROOM({commit}, payload) {
@@ -130,7 +134,7 @@ export default new Vuex.Store({
                     gameStat: this.state.gameStat,
                     teamTurn: this.state.teamTurn,
                     playerTurn: this.state.playerTurn,
-                    timeOut: new Date().setSeconds(new Date().getSeconds() + this.state.timeOutInterval)
+                    timeOut: new Date().setSeconds(new Date().getSeconds() + 10)
                 })
                 .then(_ => {
                     console.log('Success')
@@ -200,6 +204,9 @@ export default new Vuex.Store({
         },
         gameReady: state => {
             return state.gameReady
+        },
+        winner: state => {
+            return state.winner
         }
     }
 })

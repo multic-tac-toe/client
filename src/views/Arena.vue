@@ -5,6 +5,7 @@
             <h1>{{winner}}</h1>
             <img v-if="winner!='DRAW'" src="@/assets/win.gif" alt="">
             <img v-if="winner=='DRAW'" src="@/assets/draw.gif" alt="" srcset="">
+            <button @click.prevent="close">Close</button>
             <audio v-if="winner!='DRAW'" autoplay>
                 <source src="@/assets/win.mp3" type="audio/mp3">
             </audio>
@@ -47,6 +48,7 @@
     import BoardComponent from '@/components/BoardComponent.vue'
     import randomGenerator from '../config/randomGenerator'
     import {mapGetters} from 'vuex'
+    import router from "../router";
 
     export default {
         name: 'arena',
@@ -54,6 +56,10 @@
             BoardComponent
         },
         methods: {
+            close(){
+                localStorage.clear();
+                router.push("/")
+            }
         },
         computed: {
             ...mapGetters([
@@ -62,7 +68,8 @@
                 'teamO',
                 'teamTurn',
                 'playerTurn',
-                'gameStat'
+                'gameStat',
+                'winner'
             ])
         }
 
@@ -70,6 +77,7 @@
 </script>
 <style scoped>
     @import url('https://fonts.googleapis.com/css?family=Titan+One&display=swap');
+
     .arena {
         margin-top: 4rem;
     }
@@ -82,6 +90,7 @@
         display: flex;
         justify-content: center;
     }
+
     .players-name {
         width: 50%;
         margin: auto;
@@ -98,7 +107,7 @@
         align-items: center;
         top: 0;
         left: 0;
-        height:100vh;
+        height: 100vh;
         width: 100vw;
         background-color: rgba(0, 0, 0, 0.8);
         z-index: 100;

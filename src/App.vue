@@ -1,5 +1,8 @@
 <template>
     <div id="app">
+        <audio autoplay loop>
+            <source src="./assets/bg-theme.mp3" type="audio/mp3">
+        </audio>
         <!--    <div id="nav">-->
         <!--      <router-link to="/">Home</router-link> |-->
         <!--      <router-link to="/about">About</router-link> |-->

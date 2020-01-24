@@ -31,7 +31,7 @@ import randomGenerator from '../config/randomGenerator'
 export default {
   data(){
     return {
-        secondsLeft : ''
+        secondsLeft : 0
     }
   },
   methods: {
@@ -103,9 +103,9 @@ export default {
             if(this.secondsLeft <= 0)
               {
                 if(this.teamTurn === 'X')
-                  alert('Team O Win, team X too slowwwww')
+                  this.$store.commit('setWinner', 'Team O Win')
                 else if(this.teamTurn === 'O')
-                  alert('Team X win, team O eat too slow')
+                  this.$store.commit('setWinner', 'Team X Win')
               }
           }, 1000);
       }
