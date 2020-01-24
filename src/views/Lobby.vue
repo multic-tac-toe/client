@@ -3,7 +3,7 @@
         <div>
             <b-img
                     @click="runAllRandom"
-                    src="https://i.imgur.com/9yyfubL.jpg"
+                    src="https://i.imgur.com/NoZRcMX.png"
                     fluid
                     alt="Play Button"
                     class="play-btn my-4"

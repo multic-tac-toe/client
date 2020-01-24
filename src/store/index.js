@@ -24,6 +24,7 @@ export default new Vuex.Store({
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
         timeOut: new Date('January 24, 2020 15:07:00'),
         timeOutInterval: 10,
+        winner: ''
     },
     mutations: {
         CREATE_ROOM(state, payload) {
@@ -58,15 +59,18 @@ export default new Vuex.Store({
         SET_TIMEOUT(state, payload) {
             state.timeOut = payload
         },
-        GET_GAME_DATA(state, payload){
-            console.log(payload)
+        GET_GAME_DATA(state, payload) {
             state.teamX = payload.teamX;
             state.teamO = payload.teamO;
             state.teamTurn = payload.teamTurn;
             state.playerTurn = payload.playerTurn;
             state.timeOut = payload.timedOut;
             state.gameReady = payload.gameReady;
+            state.gameStat = payload.gameStat;
         },
+        setWinner(state, payload) {
+            state.winner = payload
+        }
     },
     actions: {
         CREATE_ROOM({commit}, payload) {
@@ -82,7 +86,8 @@ export default new Vuex.Store({
                             'playerTurn': '',
                             'gameStat': {},
                             'gameReady': false,
-                            'timeOut': ''
+                            'timeOut': '',
+                            'winner': ''
                         }).then(result => {
                             commit('CREATE_ROOM', payload);
                             console.log('room successfully created');
@@ -125,12 +130,12 @@ export default new Vuex.Store({
         },
         UPDATE_GAME({commit}, payload) {
             db.collection('rooms')
-                .doc(this.state.roomName)
+                .doc(localStorage.getItem('currentRoom'))
                 .update({
                     gameStat: this.state.gameStat,
                     teamTurn: this.state.teamTurn,
                     playerTurn: this.state.playerTurn,
-                    timeOut: new Date().setSeconds(new Date().getSeconds() + this.state.timeOutInterval)
+                    timeOut: new Date().setSeconds(new Date().getSeconds() + 10)
                 })
                 .then(_ => {
                     console.log('Success')
@@ -149,7 +154,7 @@ export default new Vuex.Store({
                     'playerTurn': this.state.playerTurn,
                     'gameStat': {},
                     'gameReady': true,
-                    'timeOut': new Date().setSeconds( new Date().getSeconds() + 10)
+                    'timeOut': new Date().setSeconds(new Date().getSeconds() + 10)
                 })
                 .then(_ => {
                     console.log('Success')
@@ -158,13 +163,13 @@ export default new Vuex.Store({
                     console.log(err)
                 })
         },
-        GET_GAME_DATA({commit}, payload){
+        GET_GAME_DATA({commit}, payload) {
             db.collection('rooms')
                 .doc(localStorage.getItem('currentRoom'))
                 .onSnapshot((querySnapshot) => {
                     commit('GET_GAME_DATA', querySnapshot.data())
-                })
-        }
+                });
+        },
     },
     modules: {},
     getters: {
@@ -200,6 +205,9 @@ export default new Vuex.Store({
         },
         gameReady: state => {
             return state.gameReady
+        },
+        winner: state => {
+            return state.winner
         }
     }
 })
