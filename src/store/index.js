@@ -59,6 +59,7 @@ export default new Vuex.Store({
             state.timeOut = payload
         },
         GET_GAME_DATA(state, payload){
+            console.log(payload)
             state.teamX = payload.teamX;
             state.teamO = payload.teamO;
             state.teamTurn = payload.teamTurn;
@@ -148,7 +149,7 @@ export default new Vuex.Store({
                     'playerTurn': this.state.playerTurn,
                     'gameStat': {},
                     'gameReady': true,
-                    'timeOut': new Date().setSeconds( new Date().getSeconds() + this.state.timeOutInterval)
+                    'timeOut': new Date().setSeconds( new Date().getSeconds() + 10)
                 })
                 .then(_ => {
                     console.log('Success')

@@ -33,6 +33,7 @@
                 this.randomInitialTeamTurn()
                 this.randomPlayerTurn()
                 this.$store.dispatch('UPDATE_GAME_SPEC')
+                router.push("/arena")
             },
             randomJoinTeam() {
                 let teamX = []
@@ -56,6 +57,8 @@
                     this.$store.commit('SET_TEAM_X', teamX)
                     this.$store.commit('SET_TEAM_O', teamO)
 
+                    // this.$store.commit('SET_PLAYER_TURN', playerTurn)
+
                     console.log(`TCL: randomJoinTeam -> this.teamX`, this.teamX)
                     console.log(`TCL: randomJoinTeam -> this.teamO`, this.teamO)
                 }
@@ -68,6 +71,7 @@
                     playerStack = this.teamO
 
                 const playerTurn = playerStack[Math.floor(Math.random() * playerStack.length)]
+                this.$store.commit('SET_PLAYER_TURN', playerTurn)
                 console.log(`TCL: randomPlayerTurn -> playerTurn`, playerTurn)
             },
 
@@ -78,7 +82,7 @@
                 else
                     this.$store.commit('SET_TEAM_TURN', 'O')
 
-                console.log(`TCL: randomInitialTeamTurn -> this.teamTurn`, this.teamTurn)
+                // console.log(`TCL: randomInitialTeamTurn -> this.teamTurn`, this.teamTurn)
             },
             addPlayers() {
                 this.$store.state.allPlayerList = localStorage.getItem('players')
@@ -101,6 +105,7 @@
         watch: {
             gameReady(n, o){
                 console.log(n,o);
+                console.log(this.gameReady);
                 router.push("/arena")
             }
         }
