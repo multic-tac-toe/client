@@ -13,9 +13,17 @@ export default new Vuex.Store({
         allPlayerList: [],
         teamX: [],
         teamO: [],
-        teamTurn: 'X',
+        teamTurn: '',
         playerTurn: '',
-        gameStat: {}
+        // allPlayerList: ['aaa','bbb','ccc','ddd','eee','fff'],
+        // teamX: ['aaa','bbb','ccc'],
+        // teamO: ['ddd','eee','fff'],
+        // teamTurn: 'X',
+        // playerTurn: 'aaa',
+        gameStat: {},
+        // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
+        timeOut: new Date('January 24, 2020 15:07:00'), 
+        timeOutInterval: 10
     },
     mutations: {
         CREATE_ROOM(state, payload) {
@@ -43,6 +51,12 @@ export default new Vuex.Store({
             const key = Object.keys(payload)
             state.gameStat[key] = payload[key]
             console.log(checkWinner(state.gameStat), '((')
+        },
+        SET_LAST_ENTERED_TIME(state, payload){
+            state.lastEnteredTime = payload
+        },
+        SET_TIMEOUT(state, payload){
+            state.timeOut = payload
         }
     },
     actions: {
@@ -103,7 +117,8 @@ export default new Vuex.Store({
                 .update({
                     gameStat: this.state.gameStat, 
                     teamTurn: this.state.teamTurn, 
-                    playerTurn: this.state.playerTurn
+                    playerTurn: this.state.playerTurn,
+                    timeOut: new Date().setSeconds( new Date().getSeconds() + this.state.timeOutInterval)
                 })
                 .then(_ => {
                     console.log('Success')
@@ -135,6 +150,15 @@ export default new Vuex.Store({
         },
         gameStat: state => {
             return state.gameStat
+        },
+        lastEnteredTime: state => {
+            return state.lastEnteredTime
+        },
+        timeOut: state => {
+            return state.timeOut
+        },
+        timeOutInterval: state => {
+            return state.timeOutInterval
         }
     }
 })

@@ -14,13 +14,26 @@
       <h4>Player Turn</h4>
       <h3>{{playerTurn}}</h3>
     </div>
+    <div class="player-turn mt-5">
+      <h4>Seconds Left</h4>
+      <!-- <h1>{{showSecondsLeft}}</h1> -->
+      {{showSecondsLeft}}
+      <h1>{{secondsLeft}}</h1>
+    </div>
+    
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import randomGenerator from '../config/randomGenerator'
 
 export default {
+  data(){
+    return {
+        secondsLeft : ''
+    }
+  },
   methods: {
     randomPlayerTurn() {
         let playerStack = []
@@ -29,26 +42,36 @@ export default {
         else
             playerStack = this.teamO
 
-        const playerTurn = playerStack[Math.floor(Math.random() * playerStack.length)]
+        const playerTurn = playerStack[randomGenerator(playerStack.length)]
         this.$store.commit('SET_PLAYER_TURN', playerTurn)
         console.log(`TCL: randomPlayerTurn -> playerTurn`, playerTurn)
     },
     sendResponse(buttonId) {
-        const currentTeamTurn = this.teamTurn
+        // const currentTeamTurn = this.teamTurn
+
         if (this.$store.state.playerTurn == localStorage.getItem('player')) { 
           if (this.gameStat[buttonId])
               console.log(` \n======================\n GRID ${buttonId} HAS BEEN FILLED`)
           else {
-              if (currentTeamTurn === "X")
+              this.$store.commit('SET_GAME_STAT', {[buttonId]: this.teamTurn})
+                console.log(' \n======================\n', this.gameStat)
+
+              if (this.teamTurn === "X")
                   this.$store.commit('SET_TEAM_TURN', 'O')
               else
                   this.$store.commit('SET_TEAM_TURN', 'X')
   
-              console.log(' \n======================\n', currentTeamTurn)
-              this.$store.commit('SET_GAME_STAT', {[buttonId]: currentTeamTurn})
-              console.log(' \n======================\n', this.gameStat)
+              console.log(' \n======================\n', this.teamTurn)
+              
+
           }
           this.randomPlayerTurn()
+
+          this.$store.commit('SET_TIMEOUT', new Date().setSeconds( new Date().getSeconds() + this.timeOutInterval ))
+
+          console.log(`TCL: sendResponse -> this.timeOut`, this.timeOut)
+
+          // nanti diUNCOMMENT NEH PENTING BANGET 
           this.$store.dispatch('UPDATE_GAME')
           console.log(this.gameStat, this.teamTurn, this.playerTurn)
         } else {
@@ -65,8 +88,28 @@ export default {
           'teamO',
           'teamTurn',
           'playerTurn',
-          'gameStat'
-      ])
+          'gameStat',
+          'lastEnteredTime',
+          'timeOut',
+          'timeOutInterval'
+      ]),
+      showSecondsLeft(){
+
+          setInterval(() => {
+            const convertTimeOut = new Date(this.timeOut)
+            console.log(`TCL: showSecondsLeft -> convertTimeOut`, convertTimeOut)
+            
+            this.secondsLeft =  Math.floor( (convertTimeOut.getTime() - new Date().getTime()) / 1000)
+
+            if(this.secondsLeft <= 0)
+              {
+                if(this.teamTurn === 'X')
+                  alert('Team O Win, team X too slowwwww')
+                else if(this.teamTurn === 'O')
+                  alert('Team X win, team O eat too slow')
+              }
+          }, 1000);
+      }
   }
 }
 </script>
