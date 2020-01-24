@@ -95,7 +95,7 @@
             ]),
             showSecondsLeft() {
                 setInterval(() => {
-                    const convertTimeOut = new Date(this.timeOut)
+                    const convertTimeOut = new Date(this.timeOut);
                     // console.log(`TCL: showSecondsLeft -> convertTimeOut`, convertTimeOut)
                     this.secondsLeft = Math.floor((convertTimeOut.getTime() - new Date().getTime()) / 1000);
                     if (this.secondsLeft <= 0) {

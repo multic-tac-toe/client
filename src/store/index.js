@@ -22,8 +22,8 @@ export default new Vuex.Store({
         gameStat: {},
         gameReady: false,
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
-        timeOut: new Date('January 24, 2020 15:07:00'),
-        timeOutInterval: 10,
+        timeOut: 20,
+        timeOutInterval: 20,
         winner: ''
     },
     mutations: {
@@ -67,6 +67,7 @@ export default new Vuex.Store({
             state.timeOut = payload.timedOut;
             state.gameReady = payload.gameReady;
             state.gameStat = payload.gameStat;
+            state.allPlayerList = payload.member
         },
         setWinner(state, payload) {
             state.winner = payload
@@ -122,6 +123,7 @@ export default new Vuex.Store({
                         room.update({
                             'member': payload.teamList
                         });
+                        localStorage.setItem('currentRoom', "")
                         localStorage.setItem('currentRoom', payload.roomName)
                     } else {
                         console.log("room not found")
@@ -135,7 +137,7 @@ export default new Vuex.Store({
                     gameStat: this.state.gameStat,
                     teamTurn: this.state.teamTurn,
                     playerTurn: this.state.playerTurn,
-                    timeOut: new Date().setSeconds(new Date().getSeconds() + 10)
+                    timeOut: new Date().setSeconds(new Date().getSeconds() + 20)
                 })
                 .then(_ => {
                     console.log('Success')
@@ -154,7 +156,8 @@ export default new Vuex.Store({
                     'playerTurn': this.state.playerTurn,
                     'gameStat': {},
                     'gameReady': true,
-                    'timeOut': new Date().setSeconds(new Date().getSeconds() + 10)
+                    // 'timeOut': new Date().setSeconds(new Date().getSeconds() + 20)
+                    'timeOut': this.state.timeOut
                 })
                 .then(_ => {
                     console.log('Success')
