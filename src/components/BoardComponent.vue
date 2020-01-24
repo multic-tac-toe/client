@@ -49,7 +49,7 @@ export default {
     sendResponse(buttonId) {
         // const currentTeamTurn = this.teamTurn
 
-        if (this.$store.state.playerTurn == localStorage.getItem('player')) { 
+        if (this.$store.state.playerTurn == localStorage.getItem('userName')) {
           if (this.gameStat[buttonId])
               console.log(` \n======================\n GRID ${buttonId} HAS BEEN FILLED`)
           else {
@@ -94,10 +94,9 @@ export default {
           'timeOutInterval'
       ]),
       showSecondsLeft(){
-
           setInterval(() => {
             const convertTimeOut = new Date(this.timeOut)
-            console.log(`TCL: showSecondsLeft -> convertTimeOut`, convertTimeOut)
+            // console.log(`TCL: showSecondsLeft -> convertTimeOut`, convertTimeOut)
             
             this.secondsLeft =  Math.floor( (convertTimeOut.getTime() - new Date().getTime()) / 1000)
 
@@ -110,6 +109,11 @@ export default {
               }
           }, 1000);
       }
+  },
+  created() {
+    console.log(this.teamTurn)
+    console.log(this.timeOut)
+    this.$store.dispatch('GET_GAME_DATA')
   }
 }
 </script>

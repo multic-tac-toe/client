@@ -20,9 +20,10 @@ export default new Vuex.Store({
         // teamTurn: 'X',
         // playerTurn: 'aaa',
         gameStat: {},
+        gameReady: false,
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
-        timeOut: new Date('January 24, 2020 15:07:00'), 
-        timeOutInterval: 10
+        timeOut: new Date('January 24, 2020 15:07:00'),
+        timeOutInterval: 10,
     },
     mutations: {
         CREATE_ROOM(state, payload) {
@@ -51,12 +52,21 @@ export default new Vuex.Store({
             state.gameStat[key] = payload[key]
             console.log(checkWinner(state.gameStat), '((')
         },
-        SET_LAST_ENTERED_TIME(state, payload){
+        SET_LAST_ENTERED_TIME(state, payload) {
             state.lastEnteredTime = payload
         },
-        SET_TIMEOUT(state, payload){
+        SET_TIMEOUT(state, payload) {
             state.timeOut = payload
-        }
+        },
+        GET_GAME_DATA(state, payload){
+            console.log(payload)
+            state.teamX = payload.teamX;
+            state.teamO = payload.teamO;
+            state.teamTurn = payload.teamTurn;
+            state.playerTurn = payload.playerTurn;
+            state.timeOut = payload.timedOut;
+            state.gameReady = payload.gameReady;
+        },
     },
     actions: {
         CREATE_ROOM({commit}, payload) {
@@ -66,16 +76,18 @@ export default new Vuex.Store({
                     if (!doc.exists) {
                         room.set({
                             'member': [],
-                            'team-x': [],
-                            'team-y': [],
-                            'team-turn': '',
-                            'player-turn': '',
-                            'game-stat': {},
-                            'game-ready': ''
+                            'teamX': [],
+                            'teamO': [],
+                            'teamTurn': '',
+                            'playerTurn': '',
+                            'gameStat': {},
+                            'gameReady': false,
+                            'timeOut': ''
                         }).then(result => {
                             commit('CREATE_ROOM', payload);
                             console.log('room successfully created');
-                        })
+                        });
+                        localStorage.setItem('admin', payload)
                     } else {
                         console.log('room already exist')
                     }
@@ -104,7 +116,8 @@ export default new Vuex.Store({
                     if (doc) {
                         room.update({
                             'member': payload.teamList
-                        })
+                        });
+                        localStorage.setItem('currentRoom', payload.roomName)
                     } else {
                         console.log("room not found")
                     }
@@ -114,16 +127,42 @@ export default new Vuex.Store({
             db.collection('rooms')
                 .doc(this.state.roomName)
                 .update({
-                    gameStat: this.state.gameStat, 
-                    teamTurn: this.state.teamTurn, 
+                    gameStat: this.state.gameStat,
+                    teamTurn: this.state.teamTurn,
                     playerTurn: this.state.playerTurn,
-                    timeOut: new Date().setSeconds( new Date().getSeconds() + this.state.timeOutInterval)
+                    timeOut: new Date().setSeconds(new Date().getSeconds() + this.state.timeOutInterval)
                 })
                 .then(_ => {
                     console.log('Success')
                 })
                 .catch(err => {
                     console.log(err)
+                })
+        },
+        UPDATE_GAME_SPEC({commit}, payload) {
+            db.collection('rooms')
+                .doc(localStorage.getItem('currentRoom'))
+                .update({
+                    'teamX': this.state.teamX,
+                    'teamO': this.state.teamO,
+                    'teamTurn': this.state.teamTurn,
+                    'playerTurn': this.state.playerTurn,
+                    'gameStat': {},
+                    'gameReady': true,
+                    'timeOut': new Date().setSeconds( new Date().getSeconds() + 10)
+                })
+                .then(_ => {
+                    console.log('Success')
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        GET_GAME_DATA({commit}, payload){
+            db.collection('rooms')
+                .doc(localStorage.getItem('currentRoom'))
+                .onSnapshot((querySnapshot) => {
+                    commit('GET_GAME_DATA', querySnapshot.data())
                 })
         }
     },
@@ -158,6 +197,9 @@ export default new Vuex.Store({
         },
         timeOutInterval: state => {
             return state.timeOutInterval
+        },
+        gameReady: state => {
+            return state.gameReady
         }
     }
 })
