@@ -1,5 +1,5 @@
 <template>
-    <b-card bg-variant="ligth" text-variant="dark" :header="data.id" class="room-card text-center">
+    <b-card bg-variant="ligth" text-variant="dark" :header="data.id" class="room-card m-4" style="min-width: 300px">
         <button type="button" class="btn btn-outline-dark">Join Room</button>
     </b-card>
 </template>

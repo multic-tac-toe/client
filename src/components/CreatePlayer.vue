@@ -2,27 +2,26 @@
     <div class="container" style="width: 50vh">
         <div>
             <b-img
-                    src="https://miro.medium.com/max/512/1*9LBDOx6gG4mTuPGPDp888w.png"
+                    src="https://i.imgur.com/iSdX1S5.jpg"
                     fluid
-                    alt="Tic Tac Toe"
+                    alt="Player"
                     class="logo w-50 my-4 shadow"
                     rounded="circle"
                     style="transform: rotate(10deg)">
             </b-img>
         </div>
-        <b-form @submit.prevent="createRoom">
+        <b-form>
             <b-form-group
               id="input-group-1"
-              label="Create New Room"
+              label="Create New Player"
               label-for="new-room"
               class="font-weight-bold">
                 <b-form-input
                   id="new-room"
                   type="text"
                   required
-                  placeholder="input room name ..."
+                  placeholder="input your name ..."
                   class="rounded"
-                  v-model="roomName"
                   minLength="3"
                   maxLength="12"
                   style="text-align: center"/>
@@ -33,21 +32,9 @@
 </template>
 
 <script>
-    export default {
-        name: 'CreateRoom',
-        data() {
-            return {
-                roomName: ""
-            }
-        },
-        methods: {
-            createRoom() {
-                if (this.roomName) {
-                    this.$store.dispatch('CREATE_ROOM', this.roomName)
-                }
-            }
-        }
-    }
+  export default {
+      name: 'CreatePlayer',
+  }
 </script>
 
 <style scoped>
@@ -56,7 +43,7 @@
         transform: rotate(10deg);
     }
     50% {
-        transform: rotate(15deg);
+        transform: rotate(25deg);
     }
     100% {
         transform: rotate(10deg);
