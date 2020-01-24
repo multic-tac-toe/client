@@ -26,6 +26,7 @@
 <script>
     import {mapGetters} from 'vuex'
     import randomGenerator from '../config/randomGenerator'
+    import checkWinner from '../config/checkWinner'
 
     export default {
         data() {
@@ -65,11 +66,13 @@
 
                     }
                     this.randomPlayerTurn()
+                    console.log(`TCL: sendResponse -> checkWinner(this.gameStat)`, checkWinner(this.gameStat))
 
-                    this.$store.commit('SET_TIMEOUT', new Date().setSeconds(new Date().getSeconds() + this.timeOutInterval))
-
-                    console.log(`TCL: sendResponse -> this.timeOut`, this.timeOut)
-
+                    if(checkWinner(this.gameStat) === 'X WON')
+                        this.$store.commit('setWinner', 'Team X Win')
+                    else if(checkWinner(this.gameStat) === 'O WON')
+                        this.$store.commit('setWinner', 'Team O Win')
+                        
                     // nanti diUNCOMMENT NEH PENTING BANGET
                     this.$store.dispatch('UPDATE_GAME');
                     this.$store.dispatch('GET_GAME_DATA');

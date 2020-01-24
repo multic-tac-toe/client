@@ -22,7 +22,7 @@ export default new Vuex.Store({
         gameStat: {},
         gameReady: false,
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
-        timeOut: new Date('January 24, 2020 15:07:00'),
+        timeOut: '',
         timeOutInterval: 10,
         winner: ''
     },
@@ -64,7 +64,7 @@ export default new Vuex.Store({
             state.teamO = payload.teamO;
             state.teamTurn = payload.teamTurn;
             state.playerTurn = payload.playerTurn;
-            state.timeOut = payload.timedOut;
+            state.timeOut = new Date().setSeconds( new Date().getSeconds() + 10);
             state.gameReady = payload.gameReady;
             state.gameStat = payload.gameStat;
         },
