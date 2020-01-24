@@ -19,7 +19,7 @@
         name: 'RoomCard',
         data() {
             return {
-                teamList: ""
+                teamList: []
             }
         },
         props: {
@@ -27,23 +27,7 @@
         },
         methods: {
             joinRoom() {
-                this.$store.dispatch('GET_TEAM_LIST', this.data.id);
-                this.teamList = this.$store.getters.allPlayerList;
-                if (this.teamList.length < 6) {
-                    if (this.teamList.indexOf(localStorage.getItem('userName')) < 0) {
-                        this.teamList.push(localStorage.getItem('userName'));
-                        this.$store.dispatch('JOIN_ROOM', {
-                            roomName: this.data.id,
-                            teamList: this.teamList
-                        });
-                        localStorage.setItem("join", "true");
-                        router.push("/lobby")
-                    } else {
-                        console.log("User name already registered")
-                    }
-                } else {
-                    console.log("you can't join, 6 player max")
-                }
+                this.$emit('joinRoom', this.data.id)
             }
         }
     }

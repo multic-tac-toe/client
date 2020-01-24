@@ -9,7 +9,6 @@ export default new Vuex.Store({
     state: {
         roomName: '',
         roomList: '',
-        teamList: [],
         allPlayerList: [],
         teamX: [],
         teamO: [],
