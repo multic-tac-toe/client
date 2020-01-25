@@ -22,8 +22,8 @@ export default new Vuex.Store({
         gameStat: {},
         gameReady: false,
         // timeOut: new Date().setSeconds( new Date().getSeconds() + 20),
-        timeOut: 20,
         timeOutInterval: 20,
+        timeOut: '',
         winner: ''
     },
     mutations: {
@@ -64,7 +64,7 @@ export default new Vuex.Store({
             state.teamO = payload.teamO;
             state.teamTurn = payload.teamTurn;
             state.playerTurn = payload.playerTurn;
-            state.timeOut = payload.timedOut;
+            state.timeOut = new Date().setSeconds( new Date().getSeconds() + 10);
             state.gameReady = payload.gameReady;
             state.gameStat = payload.gameStat;
             state.allPlayerList = payload.member
