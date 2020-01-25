@@ -24,7 +24,18 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/Arena.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/Arena.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!localStorage.getItem('userName')) {
+                next('/')
+            } else {
+                if (!localStorage.getItem('currentRoom')) {
+                    next("/entrance")
+                } else {
+                    next()
+                }
+            }
+        }
     },
     {
         path: '/entrance',
@@ -37,7 +48,11 @@ const routes = [
             if (!localStorage.getItem('userName')) {
                 next('/')
             } else {
-                next()
+                if (localStorage.getItem('currentRoom')) {
+                    next("/arena")
+                } else {
+                    next()
+                }
             }
         }
     },

@@ -59,8 +59,8 @@
 
                     // this.$store.commit('SET_PLAYER_TURN', playerTurn)
 
-                    console.log(`TCL: randomJoinTeam -> this.teamX`, this.teamX)
-                    console.log(`TCL: randomJoinTeam -> this.teamO`, this.teamO)
+                    // console.log(`TCL: randomJoinTeam -> this.teamX`, this.teamX)
+                    // console.log(`TCL: randomJoinTeam -> this.teamO`, this.teamO)
                 }
             },
             randomPlayerTurn() {
@@ -86,7 +86,7 @@
             },
             addPlayers() {
                 this.$store.state.allPlayerList = localStorage.getItem('players')
-                console.log(localStorage.getItem('players'))
+                // console.log(localStorage.getItem('players'))
             }
         },
         computed: {
@@ -99,7 +99,6 @@
             ])
         },
         mounted() {
-            // this.addPlayers()
             this.$store.dispatch('GET_GAME_DATA');
         },
         watch: {

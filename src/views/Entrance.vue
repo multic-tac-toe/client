@@ -73,7 +73,6 @@
                             teamList: this.teamList
                         });
                         localStorage.setItem("join", "true");
-                        localStorage.setItem("players", this.teamList);
                         router.push("/lobby")
                     } else {
                         console.log("User name already registered")
