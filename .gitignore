@@ -1,3 +1,6 @@
+.firebase
+.firebaserc
+.browserslistrc
 .DS_Store
 node_modules
 /dist
